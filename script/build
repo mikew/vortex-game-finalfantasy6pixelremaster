@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -ex
+
+npx eslint --ext .js,.jsx,.ts,.tsx --max-warnings 0 src/
+npx tsc
+cp dist/localDevHelper.js ./index.js
