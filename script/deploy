@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -ex
+
+rm -rf game-finalfantasy6pixelremaster/ game-finalfantasy6pixelremaster.zip
+mv dist/ game-finalfantasy6pixelremaster/
+zip -r game-finalfantasy6pixelremaster.zip game-finalfantasy6pixelremaster/
+
+RELEASE_TAG="release-$(date "+%F-%H-%M")"
+
+gh release create "$RELEASE_TAG" --generate-notes --target "$GITHUB_SHA"
+gh release upload "$RELEASE_TAG" game-finalfantasy6pixelremaster.zip
