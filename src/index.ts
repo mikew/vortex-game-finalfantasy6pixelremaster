@@ -37,11 +37,11 @@ const gameInfo: BaseGameInfo = {
       context,
       discovery,
       name: 'UnityPlayer.dll',
+      path: 'UnityPlayer.dll',
+      url: 'https://www.dropbox.com/s/pyqpoxpl7i4i67a/UnityPlayer.7z',
       hashes: [
         'F1B5D1110914CEBEF9D31A935239262342DEBDE78115D90F48C640CD39673CBE',
       ],
-      path: 'UnityPlayer.dll',
-      url: 'https://www.dropbox.com/s/pyqpoxpl7i4i67a/UnityPlayer.7z',
     })
   },
 }

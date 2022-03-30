@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -ex
 
+if [ -z "$CI" ]; then
+  ./script/prepare-env
+fi
+
+rm -rf dist
+
 npx eslint --ext .js,.jsx,.ts,.tsx --max-warnings 0 src/
 npx tsc
-cp dist/localDevHelper.js ./index.js
+
+cp src/info.json dist/
+cp src/gameart.jpg dist/
