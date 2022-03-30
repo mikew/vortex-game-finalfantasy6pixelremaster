@@ -33,17 +33,22 @@ async function checkForRequiredToolSha256(args: {
     })
   }
 
-  const fullPath = path.join(args.discovery.path, args.path)
+  try {
+    const fullPath = path.join(args.discovery.path, args.path)
 
-  if (!fs.existsSync(fullPath)) {
-    sendNotification()
-    return false
-  }
+    if (!fs.existsSync(fullPath)) {
+      throw new Error(`${fullPath} not found`)
+    }
 
-  const hash = await getFileHash(fullPath, 'sha256')
-  log('debug', `${args.path} sha 256: ${hash}`)
+    const hash = await getFileHash(fullPath, 'sha256')
+    log('debug', `${args.path} sha256: ${hash}`)
 
-  if (!args.hashes.map((x) => x.toLowerCase()).includes(hash)) {
+    if (!args.hashes.map((x) => x.toLowerCase()).includes(hash)) {
+      throw new Error(
+        `${fullPath} sha256 doesn't match ${args.hashes.join(', ')}`,
+      )
+    }
+  } catch (err) {
     sendNotification()
     return false
   }
@@ -62,11 +67,15 @@ function getFileHash(file: string, algorithm: string) {
         hash.update(data)
       })
 
+      stream.on('error', (err) => {
+        reject(err)
+      })
+
       stream.on('end', () => {
         resolve(hash.digest('hex'))
       })
-    } catch (error) {
-      reject('calc fail')
+    } catch (err) {
+      reject(err)
     }
   })
 }
