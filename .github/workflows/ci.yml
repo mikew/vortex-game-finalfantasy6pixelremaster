@@ -27,10 +27,11 @@ jobs:
           rm -f game-finalfantasy6pixelremaster.zip
           zip -r game-finalfantasy6pixelremaster.zip game-finalfantasy6pixelremaster/
 
-    - name: Generate release tag
-      id: generate_release_tag
-      run: |
-        echo "::set-output name=release_tag::$(date "+%F %R")"
+      - name: Generate release tag
+        if: endsWith(github.ref, '/main')
+        id: generate_release_tag
+        run: |
+          echo "::set-output name=release_tag::$(date "+%F %R")"
 
       - name: Release
         uses: softprops/action-gh-release@v1
