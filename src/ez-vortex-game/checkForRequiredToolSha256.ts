@@ -18,14 +18,7 @@ async function checkForRequiredToolSha256(args: {
     throw new Error('No path for game')
   }
 
-  const hash = await getFileHash(
-    path.join(args.discovery.path, args.path),
-    'sha256',
-  )
-
-  log('debug', `${args.path} sha 256: ${hash}`)
-
-  if (!args.hashes.map((x) => x.toLowerCase()).includes(hash)) {
+  function sendNotification() {
     args.context.api.sendNotification?.({
       id: `${args.name}-miissing`,
       type: 'warning',
@@ -38,7 +31,20 @@ async function checkForRequiredToolSha256(args: {
         },
       ],
     })
+  }
 
+  const fullPath = path.join(args.discovery.path, args.path)
+
+  if (!fs.existsSync(fullPath)) {
+    sendNotification()
+    return false
+  }
+
+  const hash = await getFileHash(fullPath, 'sha256')
+  log('debug', `${args.path} sha 256: ${hash}`)
+
+  if (!args.hashes.map((x) => x.toLowerCase()).includes(hash)) {
+    sendNotification()
     return false
   }
 
