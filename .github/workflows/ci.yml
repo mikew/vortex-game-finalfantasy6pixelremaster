@@ -1,0 +1,34 @@
+name: CI
+
+on: push
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - run: ./script/prepare-env
+      - run: ./script/build
+
+      - name: Create release artifact
+        if: endsWith(github.ref, '/main')
+        run: |
+          mv dist/ game-finalfantasy6pixelremaster/
+          rm -f game-finalfantasy6pixelremaster.zip
+          zip -r game-finalfantasy6pixelremaster.zip game-finalfantasy6pixelremaster/
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: endsWith(github.ref, '/main')
+        with:
+          files: game-finalfantasy6pixelremaster.zip
