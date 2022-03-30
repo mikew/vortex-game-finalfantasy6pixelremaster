@@ -1,5 +1,5 @@
 import { method } from 'bluebird'
-import {
+import type {
   IExtensionContext,
   IGame,
   IDiscoveryResult,

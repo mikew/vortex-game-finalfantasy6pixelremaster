@@ -1,7 +1,7 @@
 import * as path from 'path'
 
 import { log } from 'vortex-api'
-import { ExtensionInit } from 'vortex-api/lib/types/Extension'
+import type { ExtensionInit } from 'vortex-api/lib/types/Extension'
 
 import checkForRequiredToolSha256 from './ez-vortex-game/checkForRequiredToolSha256'
 import checkForRequiredToolStat from './ez-vortex-game/checkForRequiredToolStat'

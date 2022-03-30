@@ -1,7 +1,10 @@
 import path from 'path'
 
 import { fs, log, util } from 'vortex-api'
-import { IExtensionContext, IDiscoveryResult } from 'vortex-api/lib/types/api'
+import type {
+  IExtensionContext,
+  IDiscoveryResult,
+} from 'vortex-api/lib/types/api'
 
 async function checkForRequiredToolStat(args: {
   context: IExtensionContext

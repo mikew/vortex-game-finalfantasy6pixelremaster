@@ -3,7 +3,10 @@ import fs from 'fs'
 import path from 'path'
 
 import { log, util } from 'vortex-api'
-import { IExtensionContext, IDiscoveryResult } from 'vortex-api/lib/types/api'
+import type {
+  IExtensionContext,
+  IDiscoveryResult,
+} from 'vortex-api/lib/types/api'
 
 async function checkForRequiredToolSha256(args: {
   context: IExtensionContext
